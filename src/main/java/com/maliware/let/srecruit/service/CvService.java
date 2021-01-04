@@ -2,12 +2,14 @@ package com.maliware.let.srecruit.service;
 
 
 import com.maliware.let.srecruit.model.Cv;
+import com.maliware.let.srecruit.model.Formation;
 import com.maliware.let.srecruit.model.Offer;
 import com.maliware.let.srecruit.repository.CvRepository;
 import com.maliware.let.srecruit.repository.OfferRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -21,6 +23,11 @@ public class CvService {
     }
 
     public Cv create(Cv cv){
+
+        ///cv.getFormations().forEach(cv::addFormation);
+       // cv.getFormations().iterator().forEachRemaining(formation -> cv.addFormation(formation));
+//        Formation formation = cv.getFormations().iterator().next();
+//        cv.addFormation(formation);
         return cvRepository.saveAndFlush(cv);
     }
 
@@ -45,24 +52,11 @@ public class CvService {
     }
 
     public Optional<Cv> applyToJob(Long id, Long currentCv) {
-//        try {
             Offer offer = offerRepository.findById(id).get();
             Cv cv = cvRepository.findById(currentCv).get();
             offer.addCv(cv);
             return Optional.ofNullable(upDate(currentCv, cv));
-//        } catch (CustomException exception) {
-//            return this.findOne(currentCv);
-//        }
     }
 
-//        if (offer != null){
-//        Cv cv  = cvRepository.findById(currentCv.getId()).get();
-//           offer.addCv(cv);
-//          return  upDate(currentCv, cv);
-        //cvRepository.saveAndFlush(cv);
-//        } else {
-//            return null;
-//        }
-//    }
 
 }

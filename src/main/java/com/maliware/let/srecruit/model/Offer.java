@@ -24,8 +24,6 @@ public class Offer {
             inverseJoinColumns = @JoinColumn(name = "cv_id")
     )
     private Set<Cv> cvs = new HashSet<>();
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "offer", orphanRemoval = true)
-//    private List<Cv> cvs = new ArrayList<>();
 
 
     public void addCv(Cv cv){

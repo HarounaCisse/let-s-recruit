@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -35,7 +37,11 @@ public class CvController {
     @PutMapping("{id}/{cv}")
     @ResponseStatus(HttpStatus.OK)
     public void applyFor(@PathVariable Long id, @PathVariable Long cv){
+        try {
          this.cvService.applyToJob(id, cv);
+        }catch (NoSuchElementException e){
+            System.out.println("Cv not created "+e);
+        }
     }
 //    ResponseEntity<Cv> applyFor(@PathVariable Long id, @PathVariable Long cv){
 //        return ResponseEntity.ok(this.cvService.applyToJob(id, cv));
