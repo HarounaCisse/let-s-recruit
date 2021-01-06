@@ -15,7 +15,7 @@ public class CvService {
     private final CvRepository cvRepository;
     private final OfferRepository offerRepository;
 
-    private Map<Long, Cv> listOfIds = new HashMap<>();
+//    private Map<Long, Cv> listOfIds = new HashMap<>();
 
     public CvService(CvRepository cvRepository, OfferRepository offerRepository) {
         this.cvRepository = cvRepository;
@@ -23,23 +23,23 @@ public class CvService {
     }
 
     public Cv create(Cv cv){
-        var newCV = cvRepository.saveAndFlush(cv);
-        this.listOfIds.put(newCV.getId(),newCV);
+//        var newCV = cvRepository.saveAndFlush(cv);
+//        this.listOfIds.put(newCV.getId(),newCV);
         ///cv.getFormations().forEach(cv::addFormation);
        // cv.getFormations().iterator().forEachRemaining(formation -> cv.addFormation(formation));
 //        Formation formation = cv.getFormations().iterator().next();
 //        cv.addFormation(formation);
-        return newCV;
+        return cvRepository.saveAndFlush(cv);
     }
 
-    public Cv upDate(Long id, Cv newCv){
-        var oldCv = cvRepository.findById(id);
-        if (oldCv.isPresent()){
-            return cvRepository.saveAndFlush(newCv);
-        } else {
-            return oldCv.orElse(newCv);
-        }
-    }
+//    public Cv upDate(Long id, Cv newCv){
+//        var oldCv = cvRepository.findById(id);
+//        if (oldCv.isPresent()){
+//            return cvRepository.saveAndFlush(newCv);
+//        } else {
+//            return oldCv.orElse(newCv);
+//        }
+//    }
 
     public Optional<Cv> findOne(Long id){
        return cvRepository.findById(id);
@@ -56,23 +56,15 @@ public class CvService {
             Offer offer = offerRepository.findById(id).get();
             Cv cv = cvRepository.findById(currentCv).get();
             offer.addCv(cv);
-            return Optional.ofNullable(upDate(currentCv, cv));
+            return Optional.ofNullable(update(currentCv, cv));
     }
 
 
     public Cv update(Long id, Cv cv) {
         return cvRepository
-                .findById(this.listOfIds.get(id).getId())
+                .findById(id)
                 .map(oldEntity -> this.cvRepository.saveAndFlush(cv))
                 .orElseThrow();
-    }
-
-    public Map<Long, Cv> getListOfIds() {
-        return listOfIds;
-    }
-
-    public void setListOfIds(Map<Long, Cv> listOfIds) {
-        this.listOfIds = listOfIds;
     }
 
 }
