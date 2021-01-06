@@ -34,6 +34,20 @@ public class CvController {
         return ResponseEntity.ok(this.cvService.create(cv));
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<Cv> update(@PathVariable Long id, @RequestBody Cv cv) {
+        var idCv = cvService.getListOfIds().get(id).getId();
+        var response = cvService.update(idCv, cv);
+        try {
+            if (response != null){
+                return ResponseEntity.ok(response);
+            }
+        }catch (NoSuchElementException e){
+            System.out.println("Cv not Updated "+e.getMessage());
+        }
+        return ResponseEntity.badRequest().body(response);
+    }
+
     @PutMapping("{id}/{cv}")
     @ResponseStatus(HttpStatus.OK)
     public void applyFor(@PathVariable Long id, @PathVariable Long cv){

@@ -19,10 +19,12 @@ public class FormationService {
         this.cvRepository = cvRepository;
     }
 
-    public Formation create(Long cvId, Formation formation){
+    public List<Formation> create(Long cvId, Iterable<Formation> formation){
         Cv cv = cvRepository.getOne(cvId);
-        formation.setCv(cv);
-        return formationRepository.saveAndFlush(formation);
+        formation.forEach(formation1 -> formation1.setCv(cv));
+       // formation.setCv(cv);
+        //formation.setCv(cv);
+        return formationRepository.saveAll(formation);
     }
 
     public Formation upDate(Long id, Formation newCv){
@@ -37,7 +39,7 @@ public class FormationService {
     public Optional<Formation> findOne(Long id){
         return formationRepository.findById(id);
     }
-    public List<Formation> findAllCv(){
+    public List<Formation> findAllFormation(){
         return formationRepository.findAll();
     }
 }

@@ -39,3 +39,7 @@ public class Formation implements Serializable {
         return Objects.hash(etablissementId, cv);
     }
 }
+//ALT + INSERT = GENERATOR
+//ALT + CTRL + INSERT = NEW CLASS
+//ALT + SHIFT + UP/DOWN-> = MOVE a line btw Up or Down
+//ALT + LEFT/RIGHT = MOVE BETWEEN OPEN FILES
