@@ -36,7 +36,7 @@ public class CvController {
 
     @PutMapping("{id}")
     public ResponseEntity<Cv> update(@PathVariable Long id, @RequestBody Cv cv) {
-        var response = cvService.update(id, cv);
+        var response = cvService.upDate(id, cv);
         try {
             if (response != null){
                 return ResponseEntity.ok(response);

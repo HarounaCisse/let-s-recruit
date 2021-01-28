@@ -21,7 +21,8 @@ public class CustomSecurityImpl extends WebSecurityConfigurerAdapter {
 //        http.authorizeRequests( a -> a.mvcMatchers(GET,"/user","/offer","/user/**").hasAuthority("READ")
 //        .anyRequest().hasAnyAuthority("WRITE","READ")).httpBasic();
 //        http.authorizeRequests().antMatchers("/user", "/offer").permitAll();
-
+//        http.requestMatchers().mvcMatchers("/user","/offer","/user/**")
+//                .and().authorizeRequests().anyRequest().permitAll();
         http.csrf().disable();
     }
 

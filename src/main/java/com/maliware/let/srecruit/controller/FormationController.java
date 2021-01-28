@@ -25,6 +25,11 @@ public class FormationController {
     ResponseEntity<Optional<Formation>> getCv(@PathVariable Long id){
         return ResponseEntity.ok(this.formationService.findOne(id));
     }
+    @GetMapping("userCvs/{id}")
+    ResponseEntity<List<Formation>> getUserCvs(@PathVariable Long id){
+        return ResponseEntity.ok(this.formationService.getUserFormations(id));
+    }
+
     @PutMapping("{id}")
     //@ResponseStatus(HttpStatus.CREATED)
     ResponseEntity<List<Formation>> save(@PathVariable Long id,@RequestBody Iterable<Formation> formation){

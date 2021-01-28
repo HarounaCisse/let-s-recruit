@@ -32,14 +32,18 @@ public class CvService {
         return cvRepository.saveAndFlush(cv);
     }
 
-//    public Cv upDate(Long id, Cv newCv){
-//        var oldCv = cvRepository.findById(id);
-//        if (oldCv.isPresent()){
-//            return cvRepository.saveAndFlush(newCv);
-//        } else {
-//            return oldCv.orElse(newCv);
-//        }
-//    }
+    public Cv upDate(Long id, Cv newCv){
+        Objects.requireNonNull(newCv,"Cv can not be null");
+//if (id == null) {
+//throw new IllegalArgumentException("ID cannot be null");
+//}
+        var oldCv = cvRepository.findById(id);
+        if (oldCv.isPresent()){
+            return cvRepository.save(newCv);
+        } else {
+            return oldCv.orElse(newCv);
+        }
+    }
 
     public Optional<Cv> findOne(Long id){
        return cvRepository.findById(id);
@@ -56,15 +60,15 @@ public class CvService {
             Offer offer = offerRepository.findById(id).get();
             Cv cv = cvRepository.findById(currentCv).get();
             offer.addCv(cv);
-            return Optional.ofNullable(update(currentCv, cv));
+            return Optional.ofNullable(upDate(currentCv, cv));
     }
 
 
-    public Cv update(Long id, Cv cv) {
-        return cvRepository
-                .findById(id)
-                .map(oldEntity -> this.cvRepository.saveAndFlush(cv))
-                .orElseThrow();
-    }
+//    public Cv update(Long id, Cv cv) {
+//        return cvRepository
+//                .findById(id)
+//                .map(oldEntity -> this.cvRepository.save(cv))
+//                .orElseThrow();
+//    }
 
 }

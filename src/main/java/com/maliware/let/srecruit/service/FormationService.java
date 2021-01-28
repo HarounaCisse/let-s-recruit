@@ -16,23 +16,28 @@ public class FormationService {
 
     public FormationService(FormationRepository formationRepository, CvRepository cvRepository) {
         this.formationRepository = formationRepository;
-        this.cvRepository = cvRepository;
+         this.cvRepository = cvRepository;
     }
 
     public List<Formation> create(Long cvId, Iterable<Formation> formation){
         Cv cv = cvRepository.getOne(cvId);
+        //We have to fix this one
         formation.forEach(formation1 -> formation1.setCv(cv));
-       // formation.setCv(cv);
+//        formation.spliterator().forEachRemaining(data -> data.setCv(cv));
+//        if (formation.iterator().hasNext()){
+//            formation = formation;
+//        }
+        // formation.setCv(cv);
         //formation.setCv(cv);
         return formationRepository.saveAll(formation);
     }
 
-    public Formation upDate(Long id, Formation newCv){
+    public Formation upDate(Long id, Formation newFormmation){
         var oldCv = formationRepository.findById(id);
         if (oldCv.isPresent()){
-            return formationRepository.saveAndFlush(newCv);
+            return formationRepository.saveAndFlush(newFormmation);
         } else {
-            return oldCv.orElse(newCv);
+            return oldCv.orElse(newFormmation);
         }
     }
 
@@ -41,5 +46,10 @@ public class FormationService {
     }
     public List<Formation> findAllFormation(){
         return formationRepository.findAll();
+    }
+
+    public List<Formation> getUserFormations(Long cvId){
+        //System.out.println(formationRepository.findByCvId(cvId));
+        return formationRepository.findByCvId(cvId);
     }
 }

@@ -22,9 +22,9 @@ public class Cv implements Serializable {
     private String title;
     @Embedded
     private Experience experience;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cv", orphanRemoval = true)
-    @JsonIgnore
-    private List<Formation> formations = new ArrayList<>();
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cv", orphanRemoval = true)
+//    @JsonIgnore
+//    private List<Formation> formations = new ArrayList<>();
     @Enumerated(EnumType.STRING)
     private Langues langues;
     @Enumerated(EnumType.STRING)
@@ -34,22 +34,22 @@ public class Cv implements Serializable {
     @JsonIgnore
     private Set<Offer> offer = new HashSet<>();
 
-    public void addFormation(Formation formation) {
-        this.formations.add(formation);
-        formation.setCv(this);
-    }
-    public void removeFormation(Formation formation) {
-        formation.setCv(null);
-        this.formations.remove(formation);
-    }
-    public void removeFormations() {
-        Iterator<Formation> iterator = this.formations.iterator();
-        while (iterator.hasNext()) {
-            Formation book = iterator.next();
-            book.setCv(null);
-            iterator.remove();
-        }
-    }
+//    public void addFormation(Formation formation) {
+//        this.formations.add(formation);
+//        formation.setCv(this);
+//    }
+//    public void removeFormation(Formation formation) {
+//        formation.setCv(null);
+//        this.formations.remove(formation);
+//    }
+//    public void removeFormations() {
+//        Iterator<Formation> iterator = this.formations.iterator();
+//        while (iterator.hasNext()) {
+//            Formation book = iterator.next();
+//            book.setCv(null);
+//            iterator.remove();
+//        }
+//    }
 
 
     @Override
@@ -65,4 +65,14 @@ public class Cv implements Serializable {
         return Objects.hash(id);
     }
 
+    @Override
+    public String toString() {
+        return "Cv{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", experience=" + experience +
+                ", langues=" + langues +
+                ", experienceLevel=" + experienceLevel +
+                '}';
+    }
 }

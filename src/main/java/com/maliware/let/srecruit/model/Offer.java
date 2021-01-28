@@ -15,6 +15,9 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    //Data truncation: Data too long for column 'description' at row 1
+    //Trying to insert long list it will generate
+    //above Exception: MysqlDataTruncation
     private String description;
     private Date expireDate;
     private String fonctionPrincipales;
