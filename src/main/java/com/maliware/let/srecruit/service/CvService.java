@@ -15,7 +15,6 @@ public class CvService {
     private final CvRepository cvRepository;
     private final OfferRepository offerRepository;
 
-//    private Map<Long, Cv> listOfIds = new HashMap<>();
 
     public CvService(CvRepository cvRepository, OfferRepository offerRepository) {
         this.cvRepository = cvRepository;
@@ -23,12 +22,6 @@ public class CvService {
     }
 
     public Cv create(Cv cv){
-//        var newCV = cvRepository.saveAndFlush(cv);
-//        this.listOfIds.put(newCV.getId(),newCV);
-        ///cv.getFormations().forEach(cv::addFormation);
-       // cv.getFormations().iterator().forEachRemaining(formation -> cv.addFormation(formation));
-//        Formation formation = cv.getFormations().iterator().next();
-//        cv.addFormation(formation);
         return cvRepository.saveAndFlush(cv);
     }
 

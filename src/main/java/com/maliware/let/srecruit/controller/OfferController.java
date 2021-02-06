@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.Optional;
 
 @RestController
@@ -24,6 +25,7 @@ public class OfferController {
     }
     @GetMapping("{id}")
     ResponseEntity<Optional<Offer>> getOffer(@PathVariable Long id){
+        System.out.println("Getting offer id :" +this.offerService.findOne(id));
         return ResponseEntity.ok(this.offerService.findOne(id));
     }
 
@@ -31,6 +33,12 @@ public class OfferController {
     @ResponseStatus(HttpStatus.CREATED)
     ResponseEntity<Offer> saveOffer(@RequestBody Offer offer){
         return ResponseEntity.ok(this.offerService.create(offer));
+    }
+
+    @GetMapping("cvId/{id}")
+    ResponseEntity<Set<Offer>> listOfUserJobs(@PathVariable String id){
+        Long cvId = Long.parseLong(id);
+        return ResponseEntity.ok(this.offerService.getUserCVs(cvId));
     }
 
 }

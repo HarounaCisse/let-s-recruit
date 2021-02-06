@@ -2,6 +2,7 @@ package com.maliware.let.srecruit;
 
 import com.maliware.let.srecruit.model.User;
 import com.maliware.let.srecruit.repository.UserRepo;
+import com.maliware.let.srecruit.service.CompetenceService;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -20,14 +21,18 @@ public class Application implements SmartInitializingSingleton {
 
 	@Autowired
 	UserRepo userRepo;
+	@Autowired
+	CompetenceService setInialSkillVaues;
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
 
 	@Override
 	public void afterSingletonsInstantiated() {
-		Optional<User> admin1 = userRepo.findByUsername("admin");
-		Optional<User>  haroun = userRepo.findByUsername("haroun");
+		assert setInialSkillVaues != null;
+		setInialSkillVaues.injectCommonSkills();
+//		Optional<User> admin1 = userRepo.findByUsername("admin");
+//		Optional<User>  haroun = userRepo.findByUsername("haroun");
 		UUID userId = UUID.randomUUID();
 		UUID admId  = UUID.randomUUID();
 		User admin = new User(admId, "admin",passwordEncoder().encode("admin"),true);
@@ -38,6 +43,7 @@ public class Application implements SmartInitializingSingleton {
 		if (!admin.getUuid().equals(admId) && !user.getUuid().equals(userId)){
 		this.userRepo.saveAndFlush(admin);
 		this.userRepo.saveAndFlush(user);
+
 
 		}
 //		if (admin1.isEmpty() && haroun.isEmpty()){

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class OfferService {
@@ -28,5 +29,8 @@ public class OfferService {
         return offerRepository.findById(id);
     }
 
+    public Set<Offer> getUserCVs(Long id){
+        return this.offerRepository.findByCvsId(id);
+    }
 
 }

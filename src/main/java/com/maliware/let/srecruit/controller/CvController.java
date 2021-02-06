@@ -25,6 +25,7 @@ public class CvController {
 
     @GetMapping("{id}")
     ResponseEntity<Optional<Cv>> getCv(@PathVariable Long id){
+        System.out.println("Getting Cv id :" +this.cvService.findOne(id));
         return ResponseEntity.ok(this.cvService.findOne(id));
     }
 
@@ -49,9 +50,11 @@ public class CvController {
 
     @PutMapping("{id}/{cv}")
     @ResponseStatus(HttpStatus.OK)
-    public void applyFor(@PathVariable Long id, @PathVariable Long cv){
+    public void postuler(@PathVariable String id, @PathVariable String cv){
         try {
-         this.cvService.applyToJob(id, cv);
+            Long offerId = Long.parseLong(id);
+            Long cvId = Long.parseLong(cv);
+         this.cvService.applyToJob(offerId, cvId);
         }catch (NoSuchElementException e){
             System.out.println("Cv not created "+e);
         }
