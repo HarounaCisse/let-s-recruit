@@ -6,10 +6,13 @@ import com.maliware.let.srecruit.repository.CvRepository;
 import com.maliware.let.srecruit.repository.FormationRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class FormationService {
     private final FormationRepository formationRepository;
     private final CvRepository cvRepository;
@@ -50,6 +53,9 @@ public class FormationService {
 
     public List<Formation> getUserFormations(Long cvId){
         //System.out.println(formationRepository.findByCvId(cvId));
-        return formationRepository.findByCvId(cvId);
+        if (findOne(cvId).isPresent()){
+            return formationRepository.findByCvId(cvId);
+        }
+        return Collections.emptyList();
     }
 }

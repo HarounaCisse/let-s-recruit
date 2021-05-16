@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -55,11 +56,9 @@ public class CvController {
             Long offerId = Long.parseLong(id);
             Long cvId = Long.parseLong(cv);
          this.cvService.applyToJob(offerId, cvId);
-        }catch (NoSuchElementException e){
-            System.out.println("Cv not created "+e);
+        }catch (Exception e){
+            System.out.println("Cv not created "+e.getMessage());
         }
     }
-//    ResponseEntity<Cv> applyFor(@PathVariable Long id, @PathVariable Long cv){
-//        return ResponseEntity.ok(this.cvService.applyToJob(id, cv));
-//    }
+
 }

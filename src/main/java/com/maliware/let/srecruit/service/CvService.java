@@ -2,15 +2,17 @@ package com.maliware.let.srecruit.service;
 
 
 import com.maliware.let.srecruit.model.Cv;
-import com.maliware.let.srecruit.model.Formation;
+
 import com.maliware.let.srecruit.model.Offer;
 import com.maliware.let.srecruit.repository.CvRepository;
 import com.maliware.let.srecruit.repository.OfferRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
+@Transactional
 public class CvService {
     private final CvRepository cvRepository;
     private final OfferRepository offerRepository;
@@ -50,18 +52,20 @@ public class CvService {
     }
 
     public Optional<Cv> applyToJob(Long id, Long currentCv) {
+        //The || is not a test for “either-or”. If both
+        //conditions are true, the result is true.
+        //NB: DON't Do LIKE THIS && which only checks
+        //if the the first one is true e.g:
+        //0 < 100 && 100 < 100  return false
+        if (findOne(id).isPresent() || findOne(currentCv).isPresent()){
             Offer offer = offerRepository.findById(id).get();
             Cv cv = cvRepository.findById(currentCv).get();
             offer.addCv(cv);
-            return Optional.ofNullable(upDate(currentCv, cv));
+            return Optional.of(upDate(currentCv, cv));
+        }
+            return Optional.empty();
     }
 
 
-//    public Cv update(Long id, Cv cv) {
-//        return cvRepository
-//                .findById(id)
-//                .map(oldEntity -> this.cvRepository.save(cv))
-//                .orElseThrow();
-//    }
 
 }

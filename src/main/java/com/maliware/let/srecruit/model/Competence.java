@@ -5,17 +5,20 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 
-@ToString
+
 @Data
 @Entity
 public class Competence implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Lob
+    //@Lob
+    //@SOUSSOKO2
+    @NotNull(message = "Competence can not be null")
     private String competence;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cv_id")
@@ -39,5 +42,13 @@ public class Competence implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, cv);
+    }
+
+    @Override
+    public String toString() {
+        return "Competence{" +
+                "id=" + id +
+                ", competence='" + competence + '\'' +
+                '}';
     }
 }
