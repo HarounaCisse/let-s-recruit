@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Null;
 import java.io.Serializable;
 import java.util.*;
 
@@ -20,6 +21,7 @@ public class Cv implements Serializable {
     @Id@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    private String code;
     @Embedded
     private Experience experience;
 //    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cv", orphanRemoval = true)
@@ -67,12 +69,12 @@ public class Cv implements Serializable {
 
     @Override
     public String toString() {
-        return "Cv{" +
+        return "Cv [ " +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", experience=" + experience +
                 ", langues=" + langues +
-                ", experienceLevel=" + experienceLevel +
-                '}';
+                ", experienceLevel = " + experienceLevel +
+                ']';
     }
 }

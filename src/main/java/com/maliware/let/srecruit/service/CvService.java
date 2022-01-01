@@ -6,24 +6,32 @@ import com.maliware.let.srecruit.model.Cv;
 import com.maliware.let.srecruit.model.Offer;
 import com.maliware.let.srecruit.repository.CvRepository;
 import com.maliware.let.srecruit.repository.OfferRepository;
+import com.maliware.let.srecruit.shared.CodeGeneratorProcessing;
+import org.springframework.integration.annotation.ServiceActivator;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 import java.util.*;
+
 
 @Service
 @Transactional
 public class CvService {
     private final CvRepository cvRepository;
     private final OfferRepository offerRepository;
+//
+//    private final CodeGenerator generator;
 
 
     public CvService(CvRepository cvRepository, OfferRepository offerRepository) {
         this.cvRepository = cvRepository;
         this.offerRepository = offerRepository;
+
     }
 
-    public Cv create(Cv cv){
+    public Cv create(@NotNull Cv cv){
+        cv.setCode(CodeGeneratorProcessing.cvCodeGen.get());
         return cvRepository.saveAndFlush(cv);
     }
 
@@ -67,5 +75,9 @@ public class CvService {
     }
 
 
+    @ServiceActivator(inputChannel = "outboundChannel")
+    private void postuler(Cv cv){
+        System.out.println(cv);
+    }
 
 }

@@ -1,7 +1,10 @@
 package com.maliware.let.srecruit.controller;
 
+import com.maliware.let.srecruit.config.CustomAMQPProperties;
 import com.maliware.let.srecruit.model.Cv;
 import com.maliware.let.srecruit.service.CvService;
+import com.maliware.let.srecruit.shared.CodeGenerator;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +19,18 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/cv")
 public class CvController {
+
+    private final CvService cvService;
+    private final CodeGenerator codeGenerator;
+    private final RabbitTemplate template;
     @Autowired
-    private CvService cvService;
+    CustomAMQPProperties properties;
+
+    public CvController(CvService cvService, CodeGenerator codeGenerator, RabbitTemplate template) {
+        this.cvService = cvService;
+        this.codeGenerator = codeGenerator;
+        this.template = template;
+    }
 
     @GetMapping
     ResponseEntity<List<Cv>> getAllOffer(){
@@ -59,6 +72,21 @@ public class CvController {
         }catch (Exception e){
             System.out.println("Cv not created "+e.getMessage());
         }
+    }
+
+    @PostMapping("amq")
+    public ResponseEntity<?> post(@RequestBody Cv cv){
+//        messageChannel.send(MessageBuilder.withPayload(cv)
+//                .build());
+//        Message<Cv> message = MessageBuilder.withPayload(cv).build();
+//        messageChannel.send(message);
+        // send the payload to both systems like this
+        //is going to thrown an Exception for DB part.
+       // cv = this.cvService.create(cv);
+        cv.setCode(codeGenerator.generateCode());
+        template.convertAndSend(properties.getQueueName(), cv);
+       return new ResponseEntity<>(cv, HttpStatus.CREATED);
+
     }
 
 }
